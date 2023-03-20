@@ -60,13 +60,6 @@
     "release-it": "^15.6.0",
     "typescript": "^5.0.2"
   },
-  "exports": {
-    ".": {
-      "import": "./lib/index.ts",
-      "require": "./dist/default/lib/index.js"
-    }
-  },
-  "main": "./lib/index.ts",
   "mocha": {
     "exclude": [
       "./dist/**",
@@ -92,7 +85,7 @@
     "type-check:watch": "npm run type-check -- --watch",
     "build": "npm run build:js && npm run build:types",
     "build:types": "tsc",
-    "build:js": "babel lib -d dist/default/lib --extensions \".ts,.tsx\" --delete-dir-on-start --config-file ./dist/default/.babelrc",
+    "build:js": "babel lib -d dist/default/lib --extensions \".ts,.tsx\" --delete-dir-on-start --source-maps inline --config-file ./dist/default/.babelrc",
     "doc": "jsdoc2md -c doc/jsdoc.config.json -f lib/**/*.* -t doc/api-template.hbs > doc/2-api.jsdoc2.md && concat-md doc --hide-anchor-links > README.md",
     "package": "npm run lint && npm run test && npm run build && npm run doc",
     "release": "npm run package && getdotenv -- release-it",
