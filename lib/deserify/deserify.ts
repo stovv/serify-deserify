@@ -3,6 +3,7 @@ import { isArray, isPlainObject, isPrimitive } from 'is-what';
 import { mergeOptions } from '../options/mergeOptions.js';
 
 import '../options/types.js';
+import {Options} from "../options/types";
 
 /**
  * deserify a node
@@ -15,7 +16,7 @@ import '../options/types.js';
  *
  * @returns {*} deserified node
  */
-const deserifyNode = (value, options = {}) => {
+const deserifyNode = (value: any, options: Options = {serifyKey: null, types: {}}): any => {
   if (isPrimitive(value)) return value;
 
   if (isPlainObject(value) && value.serifyKey === options.serifyKey) {
@@ -33,7 +34,7 @@ const deserifyNode = (value, options = {}) => {
     return serifyType.deserifier(deserifyNode(value.value, options));
   }
 
-  let copy;
+  let copy: Record<string|number, any> | Array<any> = {};
   if (isArray(value)) copy = [...value];
   if (isPlainObject(value)) copy = { ...value };
   for (const p in copy) copy[p] = deserifyNode(copy[p], options);
@@ -51,5 +52,5 @@ const deserifyNode = (value, options = {}) => {
  *
  * @returns {*} deserified value
  */
-export const deserify = (value, options) =>
+export const deserify = (value: any, options: Options) =>
   deserifyNode(value, mergeOptions(options));

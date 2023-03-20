@@ -3,6 +3,7 @@ import { isArray, isPlainObject, isPrimitive } from 'is-what';
 import { mergeOptions } from '../options/mergeOptions.js';
 
 import '../options/types.js';
+import {Options, Serified} from "../options/types";
 
 /**
  * serify a node
@@ -15,7 +16,7 @@ import '../options/types.js';
  *
  * @returns {*} serified node
  */
-const serifyNode = (value, options) => {
+const serifyNode = (value: any, options: Options) => {
   if (isPrimitive(value) || value.serifyKey === options.serifyKey) return value;
 
   const valueType = value.constructor?.name;
@@ -25,7 +26,7 @@ const serifyNode = (value, options) => {
     if (typeof serifyType.serifier !== 'function')
       throw new Error(`invalid ${valueType} serifier`);
 
-    const serified = {
+    const serified: Serified = {
       serifyKey: options.serifyKey,
       type: valueType,
       value: serifyNode(serifyType.serifier(value), options),
@@ -34,9 +35,10 @@ const serifyNode = (value, options) => {
     return serified;
   }
 
-  let copy;
+  let copy: Record<string | number, any> | Array<any> = [];
   if (isArray(value)) copy = [...value];
   if (isPlainObject(value)) copy = { ...value };
+
   for (const p in copy) copy[p] = serifyNode(copy[p], options);
 
   return copy ?? value;
@@ -52,5 +54,5 @@ const serifyNode = (value, options) => {
  *
  * @returns {*} serified value
  */
-export const serify = (value, options) =>
+export const serify = (value: any, options: Options) =>
   serifyNode(value, mergeOptions(options));

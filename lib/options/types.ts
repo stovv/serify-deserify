@@ -43,3 +43,22 @@
  * @property {string} [serifyKey] - serify key
  * @property {OptionsTypes} types - types object
  */
+export type SerifierFunc = (p: any) => string | number | boolean | Array<string | number | boolean> | Array<any>;
+export type DeserifierFunc = (value: any) => any;
+
+
+export type Options = {
+    serifyKey: string | null,
+    types: {
+        [className: string]: {
+            serifier: SerifierFunc;
+            deserifier: DeserifierFunc;
+        }
+    }
+}
+
+export type Serified = {
+    serifyKey: string | null;
+    type: string;
+    value: any
+}

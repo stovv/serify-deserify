@@ -1,5 +1,6 @@
 export class Custom {
-  constructor(p) {
+  readonly p: any;
+  constructor(p: any) {
     this.p = p;
   }
 }
@@ -7,8 +8,8 @@ export class Custom {
 export const getCustomOptions = () => ({
   types: {
     Custom: {
-      serifier: (u) => u.p,
-      deserifier: (s) => new Custom(s),
+      serifier: (u: Custom) => u.p,
+      deserifier: (s: any) => new Custom(s),
     },
   },
 });

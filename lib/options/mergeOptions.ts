@@ -1,6 +1,7 @@
 import { defaultOptions } from './defaultOptions.js';
 
 import './types.js';
+import {Options} from "./types";
 
 /**
  * merge custom options with default options
@@ -12,7 +13,7 @@ import './types.js';
  *
  * @returns {Options} merged options
  */
-export const mergeOptions = (options = {}) => ({
+export const mergeOptions = (options: Options = {serifyKey: null, types: {}}) => ({
   serifyKey: options.serifyKey ?? defaultOptions.serifyKey,
   types: { ...defaultOptions.types, ...options.types },
 });
